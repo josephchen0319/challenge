@@ -10,10 +10,10 @@ function App() {
   const [repos, setRepos] = useState([]);
   const [username] = useState("josephchen0319");
   const [text, setText] = useState([]);
+  const [offset, setOffset] = useState(0);
 
   function loadRandomText(num) {
     RandomText.getRandomText(num).then((data) => {
-      console.log([...text, ...data]);
       setText((original) => [...original, ...data]);
     });
   }
@@ -29,20 +29,30 @@ function App() {
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight
       ) {
-        console.log(text);
         loadRandomText(10);
       }
     });
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setOffset(window.pageYOffset);
+    });
+  });
   return (
-    <div className="container-fluid p-0">
-      {/* <CoverBackground /> */}
-      <div className="container-fluid table-responsive">
+    <div className="container-fluid p-0 position-relative overflow-hidden">
+      <CoverBackground offset={offset} />
+      <div className="container-fluid table-responsive p-0 ">
         <PublicReposTable reposData={repos} />
       </div>
-      <div className="container-fluid">
-        <Paragraph textArray={text} />
+      <div>
+        <h2 className="text-center">Infinite text cards</h2>
+        <div className="background-text white-text position-absolute">
+          {text.map((t) => t.repeat(5))}
+        </div>
+        <div className="container">
+          <Paragraph textArray={text} />
+        </div>
       </div>
     </div>
   );

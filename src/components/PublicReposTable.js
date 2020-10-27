@@ -14,8 +14,8 @@ const PublicReposTable = ({ reposData }) => {
     ));
 
     return (
-      <table className="table table-dark">
-        <thead>
+      <table className="table table-striped">
+        <thead className="thead-dark">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Title</th>
